@@ -1,9 +1,14 @@
 # Team Zenkai Deployment Setup
 
+GitHub root repository:
+
+- `https://github.com/novadevvvv/TeamZenkaiWebsite`
+
 This workspace now contains:
 
 - Root site for `teamzenkai.com`
 - A deployable template for a separate GitHub Pages site at `discord.teamzenkai.com`
+
 
 ## Root Site
 
@@ -13,9 +18,10 @@ Files already in this repository root:
 - `opengraphEmbed.png` - shared image asset
 - `CNAME` - binds GitHub Pages to `teamzenkai.com`
 
+
 ### GitHub Pages
 
-1. Push this repository to GitHub.
+1. Push this repository to `novadevvvv/TeamZenkaiWebsite`.
 2. Open repository settings.
 3. Go to Pages.
 4. Set Source to deploy from the main branch root.
@@ -28,7 +34,7 @@ Use the files in `discord-site-template/` as a second repository.
 
 ### GitHub Pages
 
-1. Create a new GitHub repository for the Discord redirect site.
+1. Create a new GitHub repository for the Discord redirect site under the same account, for example `novadevvvv/TeamZenkaiDiscord`.
 2. Copy the contents of `discord-site-template/` into the root of that repository.
 3. Open repository settings.
 4. Go to Pages.
@@ -61,9 +67,9 @@ Create this record for `discord.teamzenkai.com`:
 
 | Type | Name | Target |
 | --- | --- | --- |
-| CNAME | discord | YOUR_GITHUB_USERNAME.github.io |
+| CNAME | discord | novadevvvv.github.io |
 
-Replace `YOUR_GITHUB_USERNAME` with the account or organization that hosts the Discord Pages repository.
+This should stay `DNS only` in Cloudflare while validating Pages.
 
 ### Optional `www` redirect
 
@@ -71,7 +77,7 @@ If you want `www.teamzenkai.com` to resolve too:
 
 | Type | Name | Target |
 | --- | --- | --- |
-| CNAME | www | YOUR_GITHUB_USERNAME.github.io |
+| CNAME | www | novadevvvv.github.io |
 
 Or add a Cloudflare redirect rule from `www.teamzenkai.com/*` to `https://teamzenkai.com/$1`.
 
@@ -80,6 +86,15 @@ Or add a Cloudflare redirect rule from `www.teamzenkai.com/*` to `https://teamze
 1. Set SSL mode to `Full`.
 2. Enable `Always Use HTTPS`.
 3. Keep GitHub Pages records on `DNS only` unless you have a specific reason to proxy them.
+
+## Current DNS Diagnosis
+
+Current live lookup results from this machine:
+
+- `teamzenkai.com` returns only the Cloudflare zone `SOA` record and no `A` or `AAAA` answers
+- `discord.teamzenkai.com` resolves, but it is currently proxied through Cloudflare edge IPs
+
+That means `teamzenkai.com` is failing at DNS before GitHub Pages can respond. The fix is in Cloudflare DNS, not in the HTML files.
 
 ## Verification
 
